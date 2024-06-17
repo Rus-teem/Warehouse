@@ -14,7 +14,7 @@
 const formElement = document.getElementById('form1'); // извлекаем элемент формы
 formElement.addEventListener('submit', (e) => {
 
-    e.preventDefault(); // Отменяем стандартное исполненеи
+    e.preventDefault(); // Отменяем стандартное исполнение
 
     const formData = new FormData(formElement); // создаём объект FormData, передаём в него элемент формы
 
