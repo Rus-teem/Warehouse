@@ -1,0 +1,13 @@
+<!-- Передача события при нажатии на кнопку  -->
+<button onclick="dataLayer.push({'event': 'login'});">Button 1</button>
+
+<!-- Пример использования  -->
+<script>
+    dataLayer.push({ 'event': 'event_name' });
+// Пример с несколькими событиями 
+    dataLayer.push({
+            'color': 'red',
+            'conversionValue': 50,
+            'event': 'customize'
+        });
+</script>
