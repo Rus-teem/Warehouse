@@ -1,0 +1,9 @@
+/* <style> */
+/* обратились к элементу через класс и под первый теш спан (изолировали по номеру)  */
+.t-title_xl > span:nth-child(1) {
+    /* Испупользуя медиа запрос заменили стиль*/
+    @media screen and (min-width:275px) and (max-width:800px){
+    font-size: 88px !important;
+    }
+}
+/* </style> */
