@@ -1,0 +1,18 @@
+/* Создаем элемент списка из символа */
+ol {
+  list-style: none !important;
+}
+
+ol > li {
+  /*padding-left: 20px !important;*/
+  position: relative !important;
+  margin: 10px !important;
+}
+/* Определяем элемент списка и стилим его */
+ol > li:before {
+  content: "✔" !important;
+  line-height: 24px !important;
+  color: #1f5bff !important;
+  font-size: 21px;
+  padding: 10px;
+}
