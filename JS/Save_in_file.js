@@ -1,3 +1,16 @@
+{/* <body>
+    <p title="text on hover">text</p>
+    <a href="#" title="Текст подсказки">Наведите на эту ссылку</a>
+    <span><p>Hi men</p></span>
+    <form id="form1">
+        <input type="text" id="name" name="name" value="John">
+            <input type="text" name="surname" value="Smith">
+                <input type="submit">
+                    <a href='' id='linkForSavingFile' style='display:none' />
+    </form>
+
+</body> */}
+
 const formElement = document.getElementById('form1'); // извлекаем элемент формы
 formElement.addEventListener('submit', (e) => {
 
