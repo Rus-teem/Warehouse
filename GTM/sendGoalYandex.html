@@ -6,3 +6,29 @@
     yaCounterXXXXXXX.reachGoal('click_subscribe');
 </script>
 
+<!-- In JavaScript, using the addEventListener() method: -->
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h1>HTML DOM Events</h1>
+    <h2>The onclick Event</h2>
+
+    <p>Use the addEventListener() method to attach a "click" event to a p element:</p>
+
+    <p id="demo">Click me.</p>
+
+    <script>
+        // вешаем событие на клик по ID с запуском функиц
+        document.getElementById("demo").addEventListener("click", myFunction);
+
+        function myFunction() {
+            document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
+        }
+    </script>
+
+</body>
+
+</html>
