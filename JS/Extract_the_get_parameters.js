@@ -20,7 +20,7 @@ let param3 = params.get('param3'); // "value3"
 
 // пример 2
 let url = "http://www.example.com/page.html?param1=value1&amp;param2=value2&amp;param3=value3";
-//разбиваем значение
+//разбиваем значение split('?')[1] - тут получаем элемент по индексу 
 let params = url.split('?')[1].split('&amp;'); 
 let param3;
  
