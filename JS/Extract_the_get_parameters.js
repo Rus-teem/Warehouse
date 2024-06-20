@@ -1,3 +1,14 @@
+// Некоторые другие свойства объекта window.location:
+
+// href - весь URL
+// protocol - протокол URL
+// host - имя хоста и порт URL
+// hostname - имя хоста URL
+// port - номер порта
+// pathname - путь в URL (та часть, которая идёт после первого слэша /)
+// search - часть запроса URL (та часть, которая идёт после знака вопроса ?)
+// hash - часть URL (та часть, которая идёт после знака решётки #)
+
 // Пример получения значения url 
 const currentUrl = window.location.href;
 console.log(currentUrl); // => https://ru.hexlet.io/qna
