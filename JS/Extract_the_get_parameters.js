@@ -7,7 +7,7 @@ let params = new URLSearchParams(url.search);
  
 let param3 = params.get('param3'); // "value3"
 
-
+// пример 2
 let url = "http://www.example.com/page.html?param1=value1&amp;param2=value2&amp;param3=value3";
 //разьиваем значение
 let params = url.split('?')[1].split('&amp;'); 
