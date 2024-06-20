@@ -1,0 +1,59 @@
+<!-- Это пример как сделать редирект с задержкой и таймером -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1> Hi this is page on testing</h1>
+    <p id="rocket"></p>
+
+    <p style="display: flex; 
+    align-items: center;
+    justify-content: center;
+    font-family: tildasans;
+    font-size: 10em;" id="countdown">3</p> <!-- Отобразится обратный отсчёт -->
+    <!-- Таймер  -->
+    <script>
+        let time = 3; // Задаём начальное время
+        const timer = setInterval(() => {
+            document.getElementById('countdown').textContent = time <= 0
+                ? clearInterval(timer) // Останавливаем таймер, поскольку время истекло
+                : time--; // С каждой секундой уменьшаем время
+        }, 1000); // Интервал делаем одной секунды
+    </script>
+    <!-- Скрипт редиректа -->
+    <script>
+        // Получили значение из Get параметров 
+        let urlGet = window.location.search
+        // Редирект на страницу с разметкой Get параметров
+        function redirectToPageWithGet() {
+            let urlWithGet = 'https://you-design-studio.ru/vkw?utm_source=massage&utm_medium=direct&utm_campaign=tunnel&utm_content=1massage&utm_term=vk'
+            //window.location = urlWithGet;
+            location.replace(urlWithGet)
+        }
+        function redirectToPageVk() {
+            // Делаем задержку 
+            setTimeout(function timerRedirect() {
+                let urlVk = 'https://vk.com/you.design_kzn';
+                //window.location.href = urlVk
+                location.replace(urlVk);
+            }, 3000);
+        }
+
+        if (urlGet === '') {
+            console.log("yes")
+            redirectToPageWithGet();
+        } else {
+            console.log("no")
+            redirectToPageVk();
+        }
+    </script>
+</body>
+
+</html>
