@@ -25,7 +25,7 @@ WITH inviters_results AS (
 SELECT
     date,
     inviters,
-    -- Можно использовать для проверкуи запроса
+    -- Можно использовать для проверки запроса
     -- inviters + curn_inviter_count - new_inviter_count AS prev,
     -- curn_inviter_ids, -- можно глянуть конкретные аккаунты
     curn_inviter_count,
