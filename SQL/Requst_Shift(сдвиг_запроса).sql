@@ -100,7 +100,7 @@ ORDER BY
     date;
 
 -- Пример 
-date   | inviters | curn_inviter_count | curn_percent | new_inviter_count 
+date     | inviters | curn_inviter_count | curn_percent | new_inviter_count 
 ---------+----------+--------------------+--------------+-------------------
  2018-01 |        6 |                    |              |                 6
  2018-02 |       10 |                  4 |        66.67 |                 8
