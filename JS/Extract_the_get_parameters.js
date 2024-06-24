@@ -11,7 +11,7 @@
 
 // Пример получения значения url 
 const currentUrl = window.location.href;
-console.log(currentUrl); // => https://ru.hexlet.io/qna
+console.log(currentUrl); 
 
 let url = new URL("http://www.example.com/page.html?param1=value1&amp;param2=value2&amp;param3=value3");
 let params = new URLSearchParams(url.search);
