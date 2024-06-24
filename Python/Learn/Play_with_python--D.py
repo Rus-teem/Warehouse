@@ -1,6 +1,6 @@
 # просто играюсь с питоном :D)))
 text = "hello"
-# количетсво символовd
+# количество символов
 # input_text = input()
 txt2 = 5 == int(len('hello'))
 txt3 = len(str(str(45)+'hi'))
