@@ -7,15 +7,15 @@
     //Вынул из даты значения
     let nowDate2 = {
         a: nowDate.getDate(),
-    // Прибавляю месяц 
-    b: nowDate.getMonth() + 1,
-    c: nowDate.getFullYear(),
+        // Прибавляю месяц 
+        b: nowDate.getMonth() + 1,
+        c: nowDate.getFullYear(),
     };
     // Получил значение даты в строке 
     day = String(nowDate2.a);
     month = String(nowDate2.b);
     year = String(nowDate2.c);
-    empty = "."
+    empty = ".";
     // Получил полную дату 
     fullDate = day + empty + month + empty + year;
     // Подготовил новые стили и текст для замены 
