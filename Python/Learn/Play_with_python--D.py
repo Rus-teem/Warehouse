@@ -10,4 +10,5 @@ def hello (name, name2) :
     print ('Привет !!!')
     print ('Привет всем.'+ name)
 hello(' python', str(54 + 3.124))
+print("Привет тут дальше дописали ", end="") # тут дальше прикольно дописывает
 print (text, txt2, txt3, txt3+txt2, txt4)
