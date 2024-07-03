@@ -1,4 +1,4 @@
-mob_place = (
+mob_place = [
     "ru.bestfeeds.vk-feed",
     "com.yandex.browser",
     "ru.yandex.weatherplugin",
@@ -1020,8 +1020,8 @@ mob_place = (
     "ru.yandex.yandexbus",
     "ru.zennex.khl",
     "ru.zhursky.football",
-    "ru.znakomstva.ru",
-)
+    "ru.znakomstva.ru"
+]
 
 run1 = len(mob_place)
 
