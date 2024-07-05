@@ -29,8 +29,9 @@ def changeWords():
         else:
             return "и это еще терпимо"
 def comment():
-    if (temperature_feels - temperature) >= 3:
-        return ", а по ощущениям еще жарче 😉"
+    if temperature >= 25:
+        if (temperature_feels - temperature) >= 3:
+            return ", а по ощущениям еще жарче 😉"
 # выводим значения на экран
 print("Сейчас в городе", city, str(temperature), "°C", changeWords())
 print("Ощущается как", str(temperature_feels), "°C", comment())
