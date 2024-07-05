@@ -22,8 +22,17 @@ temperature = round(weather_data["main"]["temp"])
 temperature_feels = round(weather_data["main"]["feels_like"])
 weatherSky = data_requests["weather"]
 weatherSky2 = weatherSky[0]["description"]
+def changeWords():
+    if temperature >= 25:
+        if temperature >= 30:
+            return "и это капец как жарко"
+        else:
+            return "и это еще терпимо"
+def comment():
+    if (temperature_feels - temperature) >= 3:
+        return ",а по ощущениям еще жарче 😉"
 # выводим значения на экран
-print("Сейчас в городе", city, str(temperature), "°C")
-print("Ощущается как", str(temperature_feels), "°C")
+print("Сейчас в городе", city, str(temperature), "°C", changeWords())
+print("Ощущается как", str(temperature_feels), "°C", comment())
 print("Состояние неба:", str(weatherSky2))
 # print(weather_data)
