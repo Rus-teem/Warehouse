@@ -12,7 +12,7 @@ class requestApi:
     def __init__(self, city, cityId, appId, units, lang):
         # указываем город
         self.city = city
-        self.cityId = cityId
+        self.cityId = cityId # используется если необходимо ввести id города
         self.appId = appId
         self.units = units
         self.lang = lang
