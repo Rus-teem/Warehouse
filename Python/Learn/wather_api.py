@@ -55,6 +55,7 @@ temperature_feels = round(weather_data["main"]["feels_like"])
 # Вывод состояния состояния неба
 weatherSky3 = data_requests["weather"][0]["description"]
 
+# Доп всякие комментарии
 def changeWords():
     if temperature >= 25:
         if temperature >= 30:
@@ -64,7 +65,7 @@ def changeWords():
     else:
         return ""
 
-
+# Доп всякие комментарии
 def comment():
     if temperature >= 25:
         if (temperature_feels - temperature) >= 3:
