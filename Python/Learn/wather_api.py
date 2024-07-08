@@ -40,6 +40,7 @@ url = (
 )
 # отправляем запрос на сервер и сразу получаем результат
 weather_data = requests.get(url).json()
+# засунули в словарь
 data_requests = dict(weather_data)
 # print(data_requests)
 
