@@ -26,6 +26,8 @@ requestApiBody = requestApi(
     "ru"
 )
 
+# Тестирую замену города
+# requestApiBody.city = 'Москва'
 
 # формируем запрос
 url = (
