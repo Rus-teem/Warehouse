@@ -28,12 +28,42 @@ def changeWords():
             return "и это капец как жарко"
         else:
             return "и это еще терпимо"
+    else:
+        return ""
 def comment():
     if temperature >= 25:
         if (temperature_feels - temperature) >= 3:
             return ", а по ощущениям еще жарче 😉"
+        else:
+            return ""
+    else:
+        return ""
 # выводим значения на экран
 print("Сейчас в городе", city, str(temperature), "°C", changeWords())
 print("Ощущается как", str(temperature_feels), "°C", comment())
 print("Состояние неба:", str(weatherSky2))
+# Сердечко
+print(
+    "\n".join(
+        " ".join(*zip(*row))
+        for row in (
+            [
+                [
+                    (
+                        "*"
+                        if row == 0
+                        and col % 3 != 0
+                        or row == 1
+                        and col % 3 == 0
+                        or row - col == 2
+                        or row + col == 8
+                        else " "
+                    )
+                    for col in range(7)
+                ]
+                for row in range(6)
+            ]
+        )
+    )
+)
 # print(weather_data)
