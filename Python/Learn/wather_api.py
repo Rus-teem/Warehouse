@@ -1,6 +1,6 @@
 # подключаем библиотеку для работы с запросами
 import requests
-import json
+#import json
 
 # указываем город
 city = "Казань"
@@ -17,11 +17,18 @@ url = (
 weather_data = requests.get(url).json()
 data_requests = dict(weather_data)
 # print(data_requests)
+
 # получаем данные о температуре и о том, как она ощущается
 temperature = round(weather_data["main"]["temp"])
 temperature_feels = round(weather_data["main"]["feels_like"])
-weatherSky = data_requests["weather"]
-weatherSky2 = weatherSky[0]["description"]
+
+# Тут просто тестирую 
+# weatherSky = data_requests["weather"]
+# weatherSky2 = weatherSky[0]["description"]
+
+# Вывод состояния состояния неба
+weatherSky3 = data_requests["weather"][0]["description"]
+
 def changeWords():
     if temperature >= 25:
         if temperature >= 30:
@@ -30,6 +37,8 @@ def changeWords():
             return "и это еще терпимо"
     else:
         return ""
+
+
 def comment():
     if temperature >= 25:
         if (temperature_feels - temperature) >= 3:
@@ -38,10 +47,12 @@ def comment():
             return ""
     else:
         return ""
+
 # выводим значения на экран
 print("Сейчас в городе", city, str(temperature), "°C", changeWords())
 print("Ощущается как", str(temperature_feels), "°C", comment())
-print("Состояние неба:", str(weatherSky2))
+print("Состояние неба:", str(weatherSky3))
+
 # Сердечко
 print(
     "\n".join(
