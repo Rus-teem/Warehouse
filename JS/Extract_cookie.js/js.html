@@ -15,33 +15,39 @@
                 style="color: rgb(255, 255, 255);">+7 (927) 436-04-45</a></div>
     </div>
 
-    <div class="newPhone">
+    rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    <div class="newPhone" style="height: 10vh;">
         <p style="text-align: center;"><span style="color: rgb(255, 255, 255);">Если у Вас срочный вопрос — позвоните по номеру
             </span><a href="tel:+7 (967) 555-01-59"
                 style="color: rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255); box-shadow: none; text-decoration: none;">+7
                 (967) 555-01-59</a></p>
     </div>
 
+    <div class="newPhone" style="background-color: #313131 ;">
+        <p style="text-align: center;"><span style="color: rgb(255, 255, 255); font-family: TildaSans, Arial, sans-serif; font-size: 22px;">Если у Вас срочный вопрос — позвоните по
+                номеру
+            </span><a href="tel:+7 (967) 555-01-59"
+                style="color: rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255); box-shadow: none; text-decoration: none; font-family: TildaSans, Arial, sans-serif; font-size: 22px; text-decoration: none; ">+7 (967) 555-01-59</a></p>
+    </div>
+
     <script>
-            function getCookie(name) {
-                let cookie = document.cookie.split('; ').find(row => row.startsWith(name + '='));
-                return cookie ? cookie.split('=')[1] : null;
-            };
-            // Кладем значение cookie в переменную 
-            let managerPhoneCookie = getCookie('managerPhone')
-            let managerPhoneTelCookie = getCookie('managerPhoneTel')
+        function getCookie(name) {
+            let cookie = document.cookie.split('; ').find(row => row.startsWith(name + '='));
+            return cookie ? cookie.split('=')[1] : null;
+        };
+        // Кладем значение cookie в переменную 
+        let managerPhoneCookie = getCookie('managerPhone')
+        let managerPhoneTelCookie = getCookie('managerPhoneTel')
 
-            let newText1 = '<p style="text-align: center; "><span style="color: rgb(255, 255, 255); ">Если у Вас срочный вопрос — позвоните по номеру </span > <a href="';
-            let newText2 = ' style="color: rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255); box-shadow: none; text-decoration: none;"> ';
-            let newText3 = '</a></p >';
-            
-            let mainText = document.querySelector('.newPhone')
-            let newMainText = newText1 + managerPhoneTelCookie + '"' + newText2 + managerPhoneCookie + newText3
-            mainText.innerHTML = newMainText
+        let newText1 = '<p style="text-align: center; background-color: #313131; height: 20vh; font-family: TildaSans,Arial,sans-serif; font-size: 22px;"><span style="color: rgb(255, 255, 255); font-family: "TildaSans",Arial,sans-serif; font-size: 22px; "> <strong> Если у Вас срочный вопрос — позвоните по номеру </strong> </span > <a  href="';
+        let newText2 = ' style="color: rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255); box-shadow: none; text-decoration: none; font-family: TildaSans, Arial, sans-serif; font-size: 22px; text-decoration: none; "> <strong>';
+        let newText3 = '</strong></a></p >';
 
-            
-            
+        let mainText = document.querySelector('.newPhone')
+        let newMainText = newText1 + managerPhoneTelCookie + '"' + newText2 + managerPhoneCookie + newText3
+        mainText.innerHTML = newMainText
     </script>
+
 
 </body>
 </html>
