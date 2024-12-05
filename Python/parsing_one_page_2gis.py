@@ -8,7 +8,7 @@ headers = {
 }
 
 # URL страницы с данными (предположим, что это страница Яндекс.Карт или другой открытый сайт)
-url = "https://2gis.ru/kazan/search/%D0%94%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%8C%D0%B5%D1%80%D0%BE%D0%B2/rubricId/331/page/3"
+url = "https://2gis.ru/kazan/search/%D0%94%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%8C%D0%B5%D1%80%D0%BE%D0%B2/rubricId/331/page/5"
 
 # Функция для получения и парсинга страницы
 def get_studio_data(url):
@@ -30,6 +30,12 @@ def get_studio_data(url):
             name = (
                 studio.find("span", class_="_1cd6avd").text.strip()
                 if studio.find("span", class_="_1cd6avd")
+                else "Не указано"
+            )
+            # Извлекаем тип фирмы
+            type_firm = (
+                studio.find("span", class_="_oqoid").text.strip()
+                if studio.find("span", class_="_oqoid")
                 else "Не указано"
             )
             # Извлекаем адрес
@@ -57,6 +63,7 @@ def get_studio_data(url):
                     "Address": address,
                     "Rating": rating,
                     "count_rating": count_rating,
+                    "type_firm": type_firm
                 }
             )
 
@@ -70,10 +77,11 @@ def save_to_file(data, filename='design_studios.txt'):
     with open(filename, 'w', encoding='utf-8') as f:
         for studio in data:
             f.write(f"Название: {studio['Name']}\n")
+            f.write(f"Тип компании: {studio['type_firm']}\n")
             f.write(f"Адрес: {studio['Address']}\n")
             f.write(f"Рейтинг: {studio['Rating']}\n")
             f.write(f"Количество рейтинга: {studio['count_rating']}\n")
-            f.write("-" * 40 + '\n')
+            # f.write("-" * 40 + '\n')
 
 # Основной код
 if __name__ == "__main__":
