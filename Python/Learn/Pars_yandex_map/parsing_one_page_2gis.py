@@ -11,15 +11,17 @@ headers = {
 # URL страницы с данными (предположим, что это страница Яндекс.Карт или другой открытый сайт)
 url = "https://realty.yandex.ru/tatarstan/kupit/novostrojka/?deliveryDate=4_2027&buildingClass=COMFORT_PLUS&buildingClass=BUSINESS&buildingClass=ELITE&sort=COMMISSIONING_DATE"
 
+
 # Функция для получения и парсинга страницы
 def get_studio_data(url):
     # Отправляем GET запрос на страницу
     response = requests.get(url, headers=headers)
     print (response)
+
     if response.status_code == 200:
         # Преобразуем содержимое страницы в объект BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
-
+        soup.encoding = response.apparent_encoding
         # Ищем все блоки, которые содержат нужные нам данные
         studios = soup.find_all(
             "div", class_="SiteSnippetSearch__info"
@@ -34,8 +36,6 @@ def get_studio_data(url):
                 if studio.find("h3", class_="SiteSnippetSearch__heading")
                 else "Не указано"
             )
-            utf8Lol = name.encode("utf-8")
-            print(utf8Lol)
             # Извлекаем тип фирмы
             type_firm = (
                 studio.find("span", class_="_oqoid").text.strip()
