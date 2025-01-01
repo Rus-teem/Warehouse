@@ -33,7 +33,7 @@ soup = BeautifulSoup(html, 'lxml')
 
 first_product = (soup.find('h2', class_='product-name')).text
 first_product_price = (soup.find('span', class_='product-price')).text
-first_product_link = soup.find('a').get('href')
+first_product_link = soup.find('a', ).get('href')
 # first_product_link_text = first_product_link.get('href')
 
 # print("Продукт:", first_product, 'Цена:', first_product_price, "Ссылка:", first_product_link_text)
