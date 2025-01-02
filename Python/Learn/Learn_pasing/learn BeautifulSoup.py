@@ -33,7 +33,7 @@ soup = BeautifulSoup(html, 'lxml')
 
 first_product = (soup.find('h2', class_='product-name')).text
 first_product_price = (soup.find('span', class_='product-price')).text
-first_product_link = soup.find('a', ).get('href')
+first_product_link = soup.find('a', class_='product-link').get('href')
 # first_product_link_text = first_product_link.get('href')
 
 # print("Продукт:", first_product, 'Цена:', first_product_price, "Ссылка:", first_product_link_text)
@@ -41,7 +41,7 @@ print(first_product_link)
 
 all_product_name = soup.find_all('h2', class_='product-name')
 all_product_price = soup.find_all('span', class_='product-price')
-all_product_link = soup.find_all('a')
+all_product_link = soup.find_all('a', class_='product-link')
 
 
 name_product = []
@@ -49,16 +49,16 @@ product_price = []
 product_links = []
 
 for links in all_product_link:
-    product_links_href = links.get('href')
+    product_links_href = links.get('href').strip()
     product_links.append(product_links_href)
 
 for price in all_product_price:
-    product_name_list = price.text
+    product_name_list = price.text.strip()
     product_price.append(product_name_list)
     # print(product_price)
 
 for name in all_product_name:
-    product_name_list= name.text
+    product_name_list= name.text.strip()
     name_product.append(product_name_list)
     # print(name_product)
 
