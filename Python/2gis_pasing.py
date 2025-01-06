@@ -44,6 +44,7 @@ print(f"Папка создана по пути: {path}")
 
 # количество страниц
 num_of_page = 16
+# по умолчанию в 2 гис в гет запросах нужно начинать со второй страницы
 start_num_of_page = 2
 
 
@@ -55,8 +56,8 @@ url3 = 'https://2gis.ru/kazan/search/%D0%A1%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%BE%
 
 # Создаем списки для урлов
 url_list = []
-
-range_list = list(range(2, num_of_page))
+# создаю лист с количеством страниц
+range_list = list(range(start_num_of_page, num_of_page))
 
 # Добавил первый url 
 url_list.append(url1)
@@ -78,7 +79,6 @@ for number in range_list:
 # Создаем юзер агента
 ua = UserAgent()
 
-# Создаем готовый элемент user agent
 # сделал UA - chrome
 ua_chrome = str(ua.chrome) 
 # сделал ключ
@@ -125,27 +125,29 @@ data = {
     'Количество оценок': number_of_ratings_list
 }
 
-
-
-
 # ====================================================
 # NOTE Создаем запрос
 # ====================================================
 
+# засунул в цикл чтобы автоматически перебирал урлы
 for url_substitution in url_list:
 
     # делаем запрос
     response = requests.get(url_substitution, headers = headers, timeout=timeout_sek)
+    # решил вывести чтобы смотреть как отпрабатывает запрос 
     print(f"{url_substitution} {response.status_code}")
 
     # начинаем парсинг и вместо html.parser используем библиотеку - lxml
     soup = BeautifulSoup(response.text, 'lxml')
 
+    # ====================================================
+    # IMPORTANT начинаем поиск элементов
+    # ====================================================
+
     # ищем название компании по классу
     name_company = soup.find_all('span', class_='_1cd6avd')
 
-
-
+    # удаляем пустоты отправляем данные в список
     for element in name_company:
         clean_text = element.text.replace('\xa0', '')
         company_name_list.append(clean_text)
@@ -153,17 +155,14 @@ for url_substitution in url_list:
     # ищем тип компании по классу
     type_company = soup.find_all('span', class_='_oqoid')
 
-
-
     for element in type_company:
         clean_text = element.text.replace('\xa0', '')
         company_type_list.append(clean_text)
 
-    # Общие данные в котейнере где содердатся все элементы
+    # Общие данные в котейнере где содердатся все элементы (решил сделать черз общий контейнер)
     general_object = soup.find_all('div', class_='_1kf6gff')
 
-
-
+    # определяем по наличию класса есть ли там реклама
     for container in general_object:
         # Ищем элемент с классом "_owmyyi" внутри текущего контейнера
         inner_element = container.find('span', class_='_owmyyi')
@@ -173,8 +172,9 @@ for url_substitution in url_list:
         else:
             ad_list.append("No")
 
+    # ищем оценку - балл 
     for container in general_object:
-        # Ищем элемент с классом "_owmyyi" внутри текущего контейнера
+        # Ищем элемент с классом "_y10azs" внутри текущего контейнера
         inner_element = container.find('div', class_='_y10azs').text
         score = inner_element
         
@@ -183,10 +183,11 @@ for url_substitution in url_list:
         else:
             score_list.append("No")
 
-
+    # ищем сколько компания получила оценок
     for container in general_object:
-        # Ищем элемент с классом "_owmyyi" внутри текущего контейнера
+        # Ищем элемент с классом "_jspzdm" внутри текущего контейнера
         inner_element = str(container.find('div', class_='_jspzdm').text)
+        # проходимся циклом чтобы убрать слова которые не нужны
         if ' оценок' in inner_element or ' оценки' in inner_element or ' оценка' in inner_element:
             clean_text = inner_element.replace(' оценок', '').replace(' оценки', '').replace(' оценка', '')
         
@@ -194,16 +195,22 @@ for url_substitution in url_list:
             number_of_ratings_list.append(clean_text)
         else:
             number_of_ratings_list.append("No")
+    # время между срабатываними цикла "for"
     time.sleep(2)
 
-
+# ====================================================
+# NOTE создаю dataframe по словарю data
+# ====================================================
 
 df = pd.DataFrame(data)
-
+# сохраняю в csv файл, убираю индексы, а также устанавливаю кодировку
 df.to_csv('C:/Projects/Warehouse/Parsing_results/Результаты_парсинга.csv', index=False, encoding='windows-1251')
 
 
-# проверки
+# ====================================================
+# FIXME просто вывожу чтобы посмотреть 
+# ====================================================
+
 # print("Отдельный элемент", range_list )
 print("тут выводим лист ", company_name_list, company_type_list, ad_list, score_list, number_of_ratings_list)
 print(df)
