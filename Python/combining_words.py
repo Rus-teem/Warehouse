@@ -1524,15 +1524,24 @@ words = [
 ]
 
 good_phrases = []
+
+# Преобразуем все слова в нижний регистр
 words_low = [word.lower() for word in words]
+
+# Проходим по всем фразам
 for phrase in phrases:
     is_good_phrase = True
     phrase_low = phrase.lower()
+
+    # Проверяем, содержит ли фраза какое-либо из слов
     for word in words_low:
         if word in phrase_low:
             is_good_phrase = False
             break
+
+    # Если фраза не содержит ни одного слова, добавляем её в список хороших фраз
     if is_good_phrase:
         good_phrases.append(phrase)
 
+# Выводим список хороших фраз
 print(good_phrases)
