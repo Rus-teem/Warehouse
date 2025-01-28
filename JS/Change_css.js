@@ -9,7 +9,7 @@ elem.style.cssText = 'border: 1px solid black'
 // ололо :)
 elem.appendChild(appendChild);
 /html/body / div[1] / div[4] / div / div / div[1] / div[1] / div / styleC: \Projects\Warehouse\JS\Change_css.js
-
+// тест
 < script >
     window.addEventListener("DOMContentLoaded", function () {
         let elemVideo = document.querySelector('.t-video-lazyload')
