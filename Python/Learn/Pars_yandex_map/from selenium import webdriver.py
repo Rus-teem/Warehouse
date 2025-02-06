@@ -5,12 +5,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 # Настройка Selenium
+
+# Создание объекта настроек для браузера Chrome
 options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # Открытие браузера без GUI
+# Добавление аргумента для запуска браузера в безголовом режиме (без GUI)
+options.add_argument("--headless")
+
+# Инициализация веб-драйвера Chrome с использованием настроек и менеджера драйверов
 driver = webdriver.Chrome(
     service=Service(ChromeDriverManager().install()), options=options
 )
-
 # URL страницы Яндекс.Карт с дизайн-студиями
 url = "https://yandex.ru/maps/43/kazan/category/design_studio/184108267/"
 
