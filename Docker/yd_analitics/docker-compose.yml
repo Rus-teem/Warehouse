@@ -1,0 +1,45 @@
+version: '3.8'  # Версия синтаксиса Docker Compose
+
+services:
+  app:
+    build:
+      context: .                     # Контекст сборки — текущая директория
+      dockerfile: Dockerfile         # Файл сборки — Dockerfile, расположенный в корне проекта
+    image: my-python-app:latest      # Имя образа, который будет создан из Dockerfile
+    container_name: python-app       # Явное имя контейнера для Python-приложения
+    depends_on:
+      db:
+        condition: service_healthy   # Сервис app будет ждать, пока db не пройдет healthcheck
+    volumes:
+      - ./app:/app                   # Монтирование локальной папки "app" в контейнер по пути /app
+    environment:
+      - APP_PORT=${APP_PORT}         # Передача переменной окружения APP_PORT из файла .env
+    command: python app.py           # Команда, которая запускается при старте контейнера
+    networks:
+      - myapp-network                # Подключение к пользовательской сети "myapp-network"
+
+  db:
+    image: postgres:15               # Используем официальный образ PostgreSQL версии 15
+    container_name: postgres-db      # Явное имя контейнера для PostgreSQL
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}         # Имя пользователя для PostgreSQL, берется из .env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Пароль для PostgreSQL, берется из .env
+      POSTGRES_DB: ${POSTGRES_DB}             # Имя базы данных, берется из .env
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"   # Проброс порта: значение переменной POSTGRES_PORT для хоста и контейнера
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Монтирование именованного volume pgdata для сохранения данных БД
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]  # Команда для проверки готовности БД
+      interval: 10s                  # Интервал между проверками
+      timeout: 5s                    # Таймаут проверки
+      retries: 5                     # Количество попыток перед отказом
+    networks:
+      - myapp-network                # Подключение к той же сети "myapp-network"
+
+volumes:
+  pgdata:                           # Объявление именованного volume для хранения данных PostgreSQL
+
+networks:
+  myapp-network:                    # Объявление пользовательской сети с именем "myapp-network"
+    driver: bridge                  # Используем драйвер bridge (по умолчанию)
