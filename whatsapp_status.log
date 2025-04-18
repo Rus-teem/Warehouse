@@ -1,0 +1,32 @@
+2025-04-15 17:40:42,106 [INFO] ====== WebDriver manager ======
+2025-04-15 17:40:43,015 [INFO] Get LATEST chromedriver version for google-chrome
+2025-04-15 17:40:44,407 [INFO] Get LATEST chromedriver version for google-chrome
+2025-04-15 17:40:45,969 [INFO] Driver [C:\Users\rustem.husnutdinov\.wdm\drivers\chromedriver\win64\135.0.7049.84\chromedriver-win32/chromedriver.exe] found in cache
+2025-04-15 17:40:48,610 [INFO] Открыт WhatsApp Web. Отсканируйте QR-код (у вас есть 180 секунд).
+2025-04-15 17:43:49,057 [ERROR] QR-код не отсканирован вовремя.
+2025-04-15 17:43:49,061 [ERROR] Ошибка в основном потоке: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00B980E3+60707]
+	GetHandleVerifier [0x00B98124+60772]
+	(No symbol) [0x009C0683]
+	(No symbol) [0x00A08660]
+	(No symbol) [0x00A089FB]
+	(No symbol) [0x00A51022]
+	(No symbol) [0x00A2D094]
+	(No symbol) [0x00A4E824]
+	(No symbol) [0x00A2CE46]
+	(No symbol) [0x009FC5D3]
+	(No symbol) [0x009FD424]
+	GetHandleVerifier [0x00DDBBC3+2435075]
+	GetHandleVerifier [0x00DD7163+2416035]
+	GetHandleVerifier [0x00DF350C+2531660]
+	GetHandleVerifier [0x00BAF1B5+155125]
+	GetHandleVerifier [0x00BB5B5D+182173]
+	GetHandleVerifier [0x00B9F9B8+91640]
+	GetHandleVerifier [0x00B9FB60+92064]
+	GetHandleVerifier [0x00B8A620+4704]
+	BaseThreadInitThunk [0x76105D49+25]
+	RtlInitializeExceptionChain [0x770ECF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x770ECE91+561]
+
+2025-04-15 17:43:51,238 [INFO] Браузер закрыт
