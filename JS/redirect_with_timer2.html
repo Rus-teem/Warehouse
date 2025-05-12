@@ -1,0 +1,49 @@
+<p style="display: flex; 
+    align-items: center;
+    justify-content: center;
+    font-family: tildasans;
+    font-size: 10em;" id="countdown">3</p> <!-- Отобразится обратный отсчёт -->
+
+<script>
+    let time = 3; // Задаём начальное время
+    const timer = setInterval(() => {
+        document.getElementById('countdown').textContent = time <= 0
+            ? clearInterval(timer) // Останавливаем таймер, поскольку время истекло
+            : time--; // С каждой секундой уменьшаем время
+    }, 1000); // Интервал делаем одной секунды
+</script>
+
+
+
+<!-- Скрипт редиректа -->
+
+
+
+<script>
+    // Получили значение из Get параметров 
+    let urlGet = window.location.search
+    // Редирект на страницу с разметкой Get параметров
+    function redirectToPageWithGet() {
+        let urlWithGet = 'https://taplink.cc/lad_exhibition'
+        //window.location = urlWithGet;
+        location.replace(urlWithGet)
+    }
+    function redirectToPageOutlink() {
+        // Делаем задержку 
+        setTimeout(function timerRedirect() {
+            let urlOut = 'http://you-design-studio.ru/lad-taplink/?utm_source=lad-konkurs&utm_medium=organized&utm_campaign=taplink&utm_content=none&utm_term=none';
+            //window.location.href = urlOut
+            location.replace(urlOut);
+        }, 3000);
+    }
+
+    if (urlGet === '') {
+        //Если у меня есть гет параметры я переведу на целевую страницу
+        console.log("yes, we have get parameters")
+        redirectToPageWithGet();
+    } else {
+        //Если у меня нет гет параметров я переведу на страницу с ними 
+        console.log("no, We don’t have GET parameters.")
+        redirectToPageOutlink();
+    }
+</script>
