@@ -73,4 +73,4 @@ while True:
             sys.stdout.write(f"\r[{current_time}] Ожидание: осталось {remaining} минут... ")
             sys.stdout.flush()
             time.sleep(60)
-        print()Lj
+        print()
