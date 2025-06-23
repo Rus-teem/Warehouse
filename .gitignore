@@ -2,3 +2,5 @@ src/sdata
 .vscode/
 .git
 .gitignore.txt
+User_Data/
+.DS_Store
