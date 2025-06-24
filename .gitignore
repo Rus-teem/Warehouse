@@ -4,3 +4,20 @@ src/sdata
 .gitignore.txt
 User_Data/
 .DS_Store
+
+# Ignore logs and temporary files
+*.log
+automation_combined_log.txt
+*.tmp
+
+# Ignore Selenium session data
+User_Data/
+session/
+
+# Ignore Python cache and bytecode
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environments
+.venv/
+venv/
