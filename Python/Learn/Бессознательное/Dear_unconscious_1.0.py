@@ -74,5 +74,3 @@ while True:
             sys.stdout.flush()
             time.sleep(60)
         print()
-
-        
