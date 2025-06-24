@@ -4,6 +4,16 @@ import requests
 import tempfile
 import sys
 
+# Используемые библиотеки:
+# - argparse: для чтения аргументов из командной строки
+# - requests: загрузка изображения из URL
+# - tempfile: временное сохранение файла
+# - sys: для выхода при ошибке
+# - selenium и модули из неё: для автоматизации браузера
+# - webdriver_manager: автоматическая установка ChromeDriver
+# - time: ожидания между действиями
+# - traceback: логирование ошибок
+
 parser = argparse.ArgumentParser(description="Publish WhatsApp story via WhatsApp Web")
 parser.add_argument("image", nargs="?", help="Path to the image to publish")
 parser.add_argument("--user-data-dir", default="./User_Data", help="Chrome user data directory")
@@ -45,6 +55,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
+# Логирует текущее сообщение и DOM страницы в файл automation_combined_log.txt
 def log_browser_action(driver, message):
     from datetime import datetime
     print(message)
@@ -53,10 +64,12 @@ def log_browser_action(driver, message):
         log_file.write(driver.execute_script("return document.documentElement.outerHTML") + "\n\n")
 
 def publish_story():
+    # Настройка опций Chrome и запуск драйвера
     options = webdriver.ChromeOptions()
     options.add_argument(f"--user-data-dir={USER_DATA_DIR}")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     try:
+        # Переход на WhatsApp Web
         log_browser_action(driver, "🚀 Открываем WhatsApp Web...")
         driver.get("https://web.whatsapp.com/")
         log_browser_action(driver, "🔐 Отсканируй QR-код в открывшемся окне браузера...")
@@ -65,7 +78,7 @@ def publish_story():
         
         wait = WebDriverWait(driver, 60)
         log_browser_action(driver, "🧪 Начинаем попытку автоматизации...")
-        # Клик по иконке статуса
+        # Шаг 1: Клик по иконке статуса
         status_icon = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "span[data-icon='status-refreshed']")))
         status_button = status_icon.find_element(By.XPATH, './ancestor::button')
         # Скроллим к кнопке и пробуем кликнуть, с фолбеком через JS
@@ -78,19 +91,19 @@ def publish_story():
         log_browser_action(driver, "👉 Нажали на кнопку статуса")
         time.sleep(2)
 
-        # Кликаем по кнопке 'добавить статус'
+        # Шаг 2: Клик по кнопке "Добавить статус"
         add_status_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Add Status' or contains(@title, 'статус')]")))
         add_status_button.click()
         log_browser_action(driver, "👉 Кликаем по кнопке 'добавить статус'")
         time.sleep(1)
 
-        # Кликаем по пункту 'Фото'
+        # Шаг 3: Клик по пункту "Фото"
         media_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//li[@role='button']//span[contains(text(), 'Фото') or contains(text(), 'Photo')]")))
         media_button.click()
         log_browser_action(driver, "👉 Кликаем по пункту 'Фото'")
         time.sleep(1)
 
-        # Загружаем файл
+        # Шаг 4: Загрузка изображения через input[type='file']
         file_path = os.path.abspath(IMAGE_PATH)
         if not os.path.isfile(file_path):
             log_browser_action(driver, f"⚠️ Файл не найден по пути: {file_path}")
@@ -100,6 +113,7 @@ def publish_story():
         log_browser_action(driver, "📤 Файл передан через send_keys без вызова Finder")
         time.sleep(2)
 
+        # Шаг 5: Ожидание появления кнопки отправки и клик по ней
         log_browser_action(driver, "⏳ Ждём, когда кнопка отправки станет активной...")
         send_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and @aria-label='Отправить']")))
         send_button.click()
