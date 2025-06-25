@@ -21,7 +21,6 @@ parser.add_argument("--image-url", required=False, help="URL of the image to dow
 parser.add_argument("--use-wassenger", action="store_true", help="Use Wassenger API to publish status instead of Selenium")
 parser.add_argument("--wa-token", help="Wassenger API token")
 parser.add_argument("--wa-device-id", help="Wassenger device ID")
-parser.add_argument("--headless", action="store_true", help="Run Chrome in headless mode (без UI)")
 args = parser.parse_args()
 
 # Determine source of the image: URL or positional argument
@@ -68,12 +67,6 @@ def publish_story():
     # Настройка опций Chrome и запуск драйвера
     options = webdriver.ChromeOptions()
     options.add_argument(f"--user-data-dir={USER_DATA_DIR}")
-    if args.headless:
-        options.add_argument("--headless=new")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     try:
         # Переход на WhatsApp Web
@@ -117,37 +110,11 @@ def publish_story():
             return
         file_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']")))
         file_input.send_keys(file_path)
-        time.sleep(1)
-        # Повторно находим input после потенциального обновления DOM
-        fresh_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
-        driver.execute_script("arguments[0].dispatchEvent(new Event('change', { bubbles: true }))", fresh_input)
-        driver.execute_script("""
-            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
-            arguments[0].dispatchEvent(new Event('blur', { bubbles: true }));
-        """, fresh_input)
         log_browser_action(driver, "📤 Файл передан через send_keys без вызова Finder")
-        # Ожидание появления preview DOM
-        try:
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "div[aria-label*='Просмотр']"))
-            )
-            log_browser_action(driver, "👀 Preview DOM загружен")
-        except:
-            log_browser_action(driver, "⚠️ Preview DOM не найден — продолжаем")
         time.sleep(2)
 
         # Шаг 5: Ожидание появления кнопки отправки и клик по ней
         log_browser_action(driver, "⏳ Ждём, когда кнопка отправки станет активной...")
-        # Перед отправкой пробуем нажать "Готово"/"Done", если есть
-        try:
-            preview_confirm_button = WebDriverWait(driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and (@aria-label='Готово' or @aria-label='Done')]"))
-            )
-            preview_confirm_button.click()
-            log_browser_action(driver, "👉 Клик по кнопке 'Готово'")
-            time.sleep(1)
-        except:
-            log_browser_action(driver, "ℹ️ Кнопка 'Готово' не найдена — возможно, не требуется")
         send_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and @aria-label='Отправить']")))
         send_button.click()
         log_browser_action(driver, "✅ Сториз опубликован!")
