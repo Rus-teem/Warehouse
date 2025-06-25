@@ -21,3 +21,5 @@ __pycache__/
 # Ignore virtual environments
 .venv/
 venv/
+
+automation_combined_log.txt
