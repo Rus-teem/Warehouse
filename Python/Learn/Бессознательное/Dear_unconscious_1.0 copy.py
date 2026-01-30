@@ -35,7 +35,7 @@ def session_loop():
             print(f"\nОтвет бессознательного: {answer}\n")
         else:
             wait_minutes = random.randint(1, 3)
-            wait_seconds = wait_minutes * 60
+            wait_seconds = wait_minutes * 3
             print(f"\nБессознательное не готово. Следующая попытка через {wait_minutes} мин.\n")
             # Если не хочешь реально ждать — можно поставить wait_seconds = 3 для теста
             time.sleep(wait_seconds)
