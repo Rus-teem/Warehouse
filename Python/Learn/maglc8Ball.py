@@ -13,7 +13,7 @@ def getAnswer (answerNumber):
     elif answerNumber == 5:
         return 'Ask again later - Спросите позже снова'
     elif answerNumber == 6:
-        return 'Concentrate and ask again - Собиритесь/сосредоточьтесь и спросите еще раз'
+        return 'Concentrate and ask again - Соберитесь/сосредоточьтесь и спросите еще раз'
     elif answerNumber == 7:
         return 'My reply is no - Мой ответ нет'
     elif answerNumber == 8:
