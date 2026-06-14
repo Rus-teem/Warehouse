@@ -1,7 +1,8 @@
-# подключил модуль рандом
+# Импортируем модуль random для генерации случайных чисел
 import random
-# написал функцию
-def getAnswer (answerNumber):
+
+# Функция принимает номер ответа (1-9) и возвращает соответствующее предсказание
+def getAnswer(answerNumber):
     if answerNumber == 1:
         return 'It is certain - это точно'
     elif answerNumber == 2:
@@ -20,9 +21,12 @@ def getAnswer (answerNumber):
         return 'Outlook not so good - Перспективы не очень хорошие'
     elif answerNumber == 9:
         return 'Very doubtful - Очень сомнительно'
-# создал переменную содержащую значение от 1 до 9 "randint возвращает значение с прописанными аргументами"
-r = random.randint (1, 9)
-# передаю значение переменной 'r' в функцию
+
+# Генерируем случайное число от 1 до 9 — это будет номер ответа
+r = random.randint(1, 9)
+
+# Передаём случайное число в функцию и сохраняем результат
 fortune = getAnswer(r)
-# вывожу значение
-print (fortune)
+
+# Выводим предсказание в консоль
+print(fortune)
