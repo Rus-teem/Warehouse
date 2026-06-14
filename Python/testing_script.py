@@ -1,13 +1,7 @@
+"""Создаёт директорию для результатов парсинга."""
 
 from pathlib import Path
 
-
-# Указываем путь для создания папки
-path = Path("C:/Projects/Warehouse/Parsing_results")
-
-# Создаем папку
+path = Path("Parsing_results")
 path.mkdir(parents=True, exist_ok=True)
-
 print(f"Папка создана по пути: {path}")
-
-

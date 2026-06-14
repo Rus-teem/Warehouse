@@ -1,5 +1,6 @@
-from bs4 import BeautifulSoup
+"""Обучение работе с BeautifulSoup: извлечение данных из HTML."""
 
+from bs4 import BeautifulSoup
 import lxml
 
 html = """
@@ -22,57 +23,19 @@ html = """
     </div>
   </body>
 </html>
-
 """
 
-# Создаём объект BeautifulSoup
 soup = BeautifulSoup(html, 'lxml')
-
-# Выводим красиво отформатированный HTML
-# print(soup.prettify())
-
-first_product = (soup.find('h2', class_='product-name')).text
-first_product_price = (soup.find('span', class_='product-price')).text
-first_product_link = soup.find('a', class_='product-link').get('href')
-# first_product_link_text = first_product_link.get('href')
-
-# print("Продукт:", first_product, 'Цена:', first_product_price, "Ссылка:", first_product_link_text)
-print(first_product_link)
 
 all_product_name = soup.find_all('h2', class_='product-name')
 all_product_price = soup.find_all('span', class_='product-price')
 all_product_link = soup.find_all('a', class_='product-link')
 
-
-name_product = []
-product_price = []
-product_links = []
-
-for links in all_product_link:
-    product_links_href = links.get('href').strip()
-    product_links.append(product_links_href)
-
-for price in all_product_price:
-    product_name_list = price.text.strip()
-    product_price.append(product_name_list)
-    # print(product_price)
-
-for name in all_product_name:
-    product_name_list= name.text.strip()
-    name_product.append(product_name_list)
-    # print(name_product)
+name_product = [name.text.strip() for name in all_product_name]
+product_price = [price.text.strip() for price in all_product_price]
+product_links = [link.get('href').strip() for link in all_product_link]
 
 print("название", name_product, "цена", product_price, "ссылка", product_links)
 
-
-for name, price, link in zip (name_product, product_price, product_links):
-    print(f"название товара - {name}, цена товара- {price}, ссылка товара - {link}")
-
-
-
-# for soups in soup:
-#     soups1 = (soup.find_all('h2', class_='product-name')).text
-#     soups2 = (soup.find_all('span', class_='product-price')).text
-#     first_product_link = soup.find('a')
-#     soups3 = first_product_link.get('href')
-#     print (soups1, soups2, soups3)
+for name, price, link in zip(name_product, product_price, product_links):
+    print(f"название товара - {name}, цена товара - {price}, ссылка товара - {link}")

@@ -1,1 +1,2 @@
+# Зависимости Python-приложения
 psycopg2-binary

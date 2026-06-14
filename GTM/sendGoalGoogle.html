@@ -1,13 +1,17 @@
-<!-- Передача события при нажатии на кнопку  -->
+<!--
+  Примеры передачи событий в Google Tag Manager через dataLayer.
+  Используется для отслеживания конверсий и пользовательских действий.
+-->
+
+<!-- Передача события при нажатии на кнопку -->
 <button onclick="dataLayer.push({'event': 'login'});">Button 1</button>
 
-<!-- Пример использования  -->
+<!-- Пример передачи пользовательского события с дополнительными данными -->
 <script>
     dataLayer.push({ 'event': 'event_name' });
-// Пример с несколькими событиями 
     dataLayer.push({
-            'color': 'red',
-            'conversionValue': 50,
-            'event': 'customize'
-        });
+        'color': 'red',
+        'conversionValue': 50,
+        'event': 'customize'
+    });
 </script>

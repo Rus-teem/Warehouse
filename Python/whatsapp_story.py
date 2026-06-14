@@ -1,18 +1,19 @@
+"""Публикация WhatsApp Story через веб-интерфейс с поддержкой CLI и headless-режима."""
+
 import os
 import argparse
 import requests
 import tempfile
 import sys
-
-# Используемые библиотеки:
-# - argparse: для чтения аргументов из командной строки
-# - requests: загрузка изображения из URL
-# - tempfile: временное сохранение файла
-# - sys: для выхода при ошибке
-# - selenium и модули из неё: для автоматизации браузера
-# - webdriver_manager: автоматическая установка ChromeDriver
-# - time: ожидания между действиями
-# - traceback: логирование ошибок
+import traceback
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+from datetime import datetime
 
 parser = argparse.ArgumentParser(description="Publish WhatsApp story via WhatsApp Web")
 parser.add_argument("image", nargs="?", help="Path to the image to publish")
@@ -24,7 +25,6 @@ parser.add_argument("--wa-device-id", help="Wassenger device ID")
 parser.add_argument("--headless", action="store_true", help="Run Chrome in headless mode (без UI)")
 args = parser.parse_args()
 
-# Determine source of the image: URL or positional argument
 if args.image_url:
     try:
         response = requests.get(args.image_url)
@@ -41,30 +41,22 @@ if args.image_url:
 elif args.image:
     IMAGE_PATH = args.image
 else:
-    # Используем изображение по умолчанию
     IMAGE_PATH = "/Users/rustem/Pictures/Обои/photo-1542273917363-3b1817f69a2d.jpeg"
     print(f"ℹ️ Используется изображение по умолчанию: {IMAGE_PATH}")
 
 USER_DATA_DIR = args.user_data_dir
 
-import traceback
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
-import time
 
-# Логирует текущее сообщение и DOM страницы в файл automation_combined_log.txt
 def log_browser_action(driver, message):
-    from datetime import datetime
+    """Логирует сообщение и текущий DOM страницы в файл."""
     print(message)
     with open("automation_combined_log.txt", "a", encoding="utf-8") as log_file:
         log_file.write(f"[{datetime.now().isoformat()}] {message}\n")
         log_file.write(driver.execute_script("return document.documentElement.outerHTML") + "\n\n")
 
+
 def publish_story():
+    """Публикует историю в WhatsApp Web: открывает статус, загружает фото и отправляет."""
     options = webdriver.ChromeOptions()
     options.add_argument(f"--user-data-dir={USER_DATA_DIR}")
     if args.headless:
@@ -94,12 +86,16 @@ def publish_story():
         log_browser_action(driver, "👉 Нажали на кнопку статуса")
         time.sleep(2)
 
-        add_status_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Add Status' or contains(@title, 'статус')]")))
+        add_status_button = wait.until(EC.element_to_be_clickable(
+            (By.XPATH, "//button[@aria-label='Add Status' or contains(@title, 'статус')]")
+        ))
         add_status_button.click()
         log_browser_action(driver, "👉 Кликаем по кнопке 'добавить статус'")
         time.sleep(1)
 
-        media_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//li[@role='button']//span[contains(text(), 'Фото') or contains(text(), 'Photo')]")))
+        media_button = wait.until(EC.element_to_be_clickable(
+            (By.XPATH, "//li[@role='button']//span[contains(text(), 'Фото') or contains(text(), 'Photo')]")
+        ))
         media_button.click()
         log_browser_action(driver, "👉 Кликаем по пункту 'Фото'")
         time.sleep(1)
@@ -121,39 +117,44 @@ def publish_story():
             arguments[0].dispatchEvent(new Event('blur', { bubbles: true }));
             arguments[0].dispatchEvent(new Event('drop', { bubbles: true }));
         """, fresh_input)
-        log_browser_action(driver, "📤 Файл передан через send_keys без вызова Finder")
+        log_browser_action(driver, "📤 Файл передан через send_keys")
 
         try:
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div[aria-label*='Просмотр']"))
             )
             log_browser_action(driver, "👀 Preview DOM загружен")
-        except:
+        except Exception:
             log_browser_action(driver, "⚠️ Preview DOM не найден — продолжаем")
         time.sleep(2)
 
         log_browser_action(driver, "⏳ Ждём, когда кнопка отправки станет активной...")
         try:
             preview_confirm_button = WebDriverWait(driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and (@aria-label='Готово' or @aria-label='Done')]"))
+                EC.element_to_be_clickable(
+                    (By.XPATH, "//div[@role='button' and (@aria-label='Готово' or @aria-label='Done')]")
+                )
             )
             preview_confirm_button.click()
             log_browser_action(driver, "👉 Клик по кнопке 'Готово'")
             time.sleep(1)
-        except:
+        except Exception:
             log_browser_action(driver, "ℹ️ Кнопка 'Готово' не найдена — возможно, не требуется")
 
-        send_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and @aria-label='Отправить']")))
+        send_button = wait.until(EC.element_to_be_clickable(
+            (By.XPATH, "//div[@role='button' and @aria-label='Отправить']")
+        ))
         send_button.click()
         log_browser_action(driver, "✅ Сториз опубликован!")
     except Exception as e:
         log_browser_action(driver, f"⚠️ Ошибка: {e}")
         traceback.print_exc()
-        log_browser_action(driver, "🛑 Финальный DOM после ошибки (логируется в automation_combined_log.txt)")
+        log_browser_action(driver, "🛑 Финальный DOM после ошибки")
     finally:
         time.sleep(3)
         driver.quit()
         print("👋 Сессия завершена. Браузер закрыт.")
+
 
 if __name__ == "__main__":
     publish_story()

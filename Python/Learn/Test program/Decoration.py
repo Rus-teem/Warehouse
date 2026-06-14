@@ -1,25 +1,24 @@
+"""Пример использования декоратора в Python."""
+
+
 def frame_decorator(func):
+    """Декоратор: обрамляет вывод функции рамкой из звёздочек."""
     def wrapper():
         print("*" * 10)
-        func()  # Вызываем исходную функцию
+        func()
         print("*" * 10)
     return wrapper
 
-# Применяем декоратор
+
 @frame_decorator
 def greet():
     print("прикольно!")
 
-# @frame_decorator
+
 def bye():
     print("Пока!")
 
-# @frame_decorator
-def probel():
-    print(" \n "*2)
 
-greet()  # Вывод: рамка + Привет! + рамка
-
-probel()
-
-bye()    # Вывод: рамка + Пока! + рамка
+greet()
+print("\n")
+bye()

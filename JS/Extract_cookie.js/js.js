@@ -1,33 +1,34 @@
-// Ждем загрузки DOM элементов
+// Извлекает номер телефона из DOM и сохраняет в куки
+
 window.addEventListener("DOMContentLoaded", function () {
-    // получили значение по селектору
-    const phoneNum = document.querySelector('.t228__right_descr > div:nth-child(1) > a:nth-child(1)')
-    
-    // Кладем полученное значение в массив
-    let arrPhone = [String(phoneNum)];
+    // Поиск ссылки с номером телефона по селектору
+    const phoneLink = document.querySelector('.t228__right_descr > div:nth-child(1) > a:nth-child(1)');
+    if (!phoneLink) return;
 
-    // Вычленяем значение 
-    let now1 = String(arrPhone[0].slice(4, 16))
-    // преобразуем значение
-    fullPhone = now1.slice(0, 2) + " (" + now1.slice(2, 5) + ") " + now1.slice(5, 8) + " - " + now1.slice(8, 10) + " - " + now1.slice(10, 12)
-    // получаем дату
-    let date = new Date(Date.now() + 86400e3);
-    date = date.toUTCString();
+    // Извлечение номера из href (tel:XXXXXXXXXXXX) или текста ссылки
+    const phoneRaw = phoneLink.href || phoneLink.textContent || '';
 
-    // Кладем значение в куки
-    document.cookie = "managerPhone = " + fullPhone + "; SameSite=Lax; expires=" + date;
-    document.cookie = "managerPhoneTel = " + arrPhone[0] + "; SameSite=Lax; expires=" + date;
+    // Очистка номера от всего кроме цифр
+    const digits = phoneRaw.replace(/\D/g, '');
+    // Форматирование в вид: XX (XXX) XXX - XX - XX
+    const fullPhone = digits.slice(0, 2) + ' (' + digits.slice(2, 5) + ') ' + digits.slice(5, 8) + ' - ' + digits.slice(8, 10) + ' - ' + digits.slice(10, 12);
 
-    // Получаем значение cookie
+    // Дата истечения куки (1 день)
+    const expires = new Date(Date.now() + 86400e3).toUTCString();
+
+    // Сохранение в куки
+    document.cookie = 'managerPhone=' + fullPhone + '; SameSite=Lax; expires=' + expires;
+    document.cookie = 'managerPhoneTel=' + phoneRaw + '; SameSite=Lax; expires=' + expires;
+
+    // Возвращает значение куки по имени
     function getCookie(name) {
-        let cookie = document.cookie.split('; ').find(row => row.startsWith(name + '='));
-        return cookie ? cookie.split('=')[1] : null;
-    };
-    // Кладем значение cookie в переменную 
-    let managerPhoneCookie = getCookie('managerPhone')
-    let managerPhoneTelCookie = getCookie('managerPhoneTel')
+        const match = document.cookie.split('; ').find(row => row.startsWith(name + '='));
+        return match ? match.split('=')[1] : null;
+    }
 
-    console.log(this.document.cookie)
-    console.log(managerPhoneTelCookie)
+    const managerPhoneCookie = getCookie('managerPhone');
+    const managerPhoneTelCookie = getCookie('managerPhoneTel');
 
+    console.log('Cookies:', document.cookie);
+    console.log('Phone tel:', managerPhoneTelCookie);
 }, false);

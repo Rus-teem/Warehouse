@@ -1,48 +1,52 @@
-import random  # Импортируем модуль random для генерации случайных чисел
+"""Диалог с бессознательным: версии 1.0 (простой) и 1.5 (циклический диалог)."""
 
-# Функция, которая возвращает "Да" или "Нет" в зависимости от переданного числа
+import random
+import time
+import sys
+from datetime import datetime
+
+
 def unconscious(answerNumber):
+    """Возвращает 'Да' или 'Нет' в зависимости от числа (1 или 2)."""
     if answerNumber == 1:
         return "Да"
     elif answerNumber == 2:
         return "Нет"
 
-# Генерируем случайное число: 1 или 2
-randNumber = random.randint(1, 2)
 
-# Получаем ответ бессознательного (Да или Нет)
-answerUnconscious = unconscious(randNumber)
-
-# Выводим сообщение о начале работы
-print("Узнай готово ли бессознательное к разговору и хочет это произойти сейчас")
-print("Бессознательно хочет ответить: " + answerUnconscious)
-
-# Функция, которая обрабатывает следующий шаг в зависимости от ответа бессознательного
-def nextStep(answerUnconscious):
-    if answerUnconscious == 'Да':
+def nextStep(answerUnconscious_v1):
+    """Запрашивает вопрос, если бессознательное готово."""
+    if answerUnconscious_v1 == 'Да':
         print("Задай свой вопрос:")
-        su = input()  # Получаем ввод пользователя
-        return su
-    elif answerUnconscious == "Нет":
+        q = input()
+        return q
+    else:
         print("Попробуй в следующий раз")
 
-# Запускаем функцию nextStep с полученным ответом бессознательного
-nextStep(answerUnconscious)
-import random  # Импортируем модуль random для генерации случайных чисел
-import time  # Для добавления паузы ожидания
-import sys  # Для красивого вывода без переноса строки
-from datetime import datetime  # Для отображения времени ожидания
 
-# Функция для генерации готовности бессознательного
+# === Версия 1.0 ===
+randNumber = random.randint(1, 2)
+answerUnconscious_v1 = unconscious(randNumber)
+print("Узнай готово ли бессознательное к разговору")
+print("Бессознательно хочет ответить: " + answerUnconscious_v1)
+nextStep(answerUnconscious_v1)
+
+print("\n" + "="*50 + "\n")
+
+# === Версия 1.5 ===
+
 def unconscious_ready():
+    """Случайным образом определяет готовность бессознательного."""
     return random.choice(["Да", "Нет"])
 
-# Функция, которая отвечает на вопрос пользователя
+
 def unconscious_answer():
+    """Возвращает случайный ответ бессознательного."""
     return random.choice([
         "Да", "Нет", "Попробуй позже", "Не сейчас",
         "Ответ скрыт", "Это важно для тебя", "Доверься интуиции"
     ])
+
 
 print("Добро пожаловать в режим диалога с бессознательным 1.5!")
 print("Чтобы выйти из программы — введи 'выход' в любой момент.\n")
@@ -65,7 +69,7 @@ while True:
                 print("Сеанс завершён. До новых встреч!")
                 sys.exit()
     else:
-        wait_minutes = random.randint(1, 3)  # Для демонстрации: ожидание 1–3 минуты
+        wait_minutes = random.randint(1, 3)
         print(f"Бессознательное не готово. Следующая попытка через {wait_minutes} минут...")
 
         for remaining in range(wait_minutes, 0, -1):

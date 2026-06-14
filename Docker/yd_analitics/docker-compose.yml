@@ -1,45 +1,46 @@
-version: '3.8'  # Версия синтаксиса Docker Compose
+# Docker Compose для Python-приложения с PostgreSQL
+version: '3.8'
 
 services:
   app:
     build:
-      context: .                     # Контекст сборки — текущая директория
-      dockerfile: Dockerfile         # Файл сборки — Dockerfile, расположенный в корне проекта
-    image: my-python-app:latest      # Имя образа, который будет создан из Dockerfile
-    container_name: python-app       # Явное имя контейнера для Python-приложения
+      context: .
+      dockerfile: Dockerfile
+    image: my-python-app:latest
+    container_name: python-app
     depends_on:
       db:
-        condition: service_healthy   # Сервис app будет ждать, пока db не пройдет healthcheck
+        condition: service_healthy
     volumes:
-      - ./app:/app                   # Монтирование локальной папки "app" в контейнер по пути /app
+      - ./app:/app
     environment:
-      - APP_PORT=${APP_PORT}         # Передача переменной окружения APP_PORT из файла .env
-    command: python app.py           # Команда, которая запускается при старте контейнера
+      - APP_PORT=${APP_PORT}
+    command: python app.py
     networks:
-      - myapp-network                # Подключение к пользовательской сети "myapp-network"
+      - myapp-network
 
   db:
-    image: postgres:15               # Используем официальный образ PostgreSQL версии 15
-    container_name: postgres-db      # Явное имя контейнера для PostgreSQL
+    image: postgres:15
+    container_name: postgres-db
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}         # Имя пользователя для PostgreSQL, берется из .env
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Пароль для PostgreSQL, берется из .env
-      POSTGRES_DB: ${POSTGRES_DB}             # Имя базы данных, берется из .env
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"   # Проброс порта: значение переменной POSTGRES_PORT для хоста и контейнера
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
-      - pgdata:/var/lib/postgresql/data  # Монтирование именованного volume pgdata для сохранения данных БД
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]  # Команда для проверки готовности БД
-      interval: 10s                  # Интервал между проверками
-      timeout: 5s                    # Таймаут проверки
-      retries: 5                     # Количество попыток перед отказом
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
-      - myapp-network                # Подключение к той же сети "myapp-network"
+      - myapp-network
 
 volumes:
-  pgdata:                           # Объявление именованного volume для хранения данных PostgreSQL
+  pgdata:
 
 networks:
-  myapp-network:                    # Объявление пользовательской сети с именем "myapp-network"
-    driver: bridge                  # Используем драйвер bridge (по умолчанию)
+  myapp-network:
+    driver: bridge

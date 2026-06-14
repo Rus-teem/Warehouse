@@ -1,27 +1,26 @@
-# Функция для получения и парсинга страницы
+"""Функция для парсинга данных с Яндекс.Недвижимости (незавершённый скрипт)."""
+
+import requests
+from bs4 import BeautifulSoup
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+
+
 def get_studio_data(url):
-    # Отправляем GET запрос на страницу
+    """Извлекает данные о новостройках (незавершённая реализация)."""
     response = requests.get(url, headers=headers)
     print(response)
-
     if response.status_code == 200:
-        # тут надо добавить строчку перед преобразованиеем в оьъект
-        # response.encoding = response.apparent_encoding -- если рес рузке, то атрибут обычно выручает
-        # Преобразуем содержимое страницы в объект BeautifulSoup
         soup = BeautifulSoup(response.text, "html.parser")
-
-        # Ищем все блоки, которые содержат нужные нам данные
-        #!если есть поиск, то надо обрабатывать!
-        studios = soup.find_all(
-            "div", class_="SiteSnippetSearch__info"
-        )  # Пример, зависит от структуры сайта
-
+        studios = soup.find_all("div", class_="SiteSnippetSearch__info")
         studio_data = []
-
         for studio in studios:
-            # Извлекаем название студии
-            name = (
-                studio.find("h3", class_="SiteSnippetSearch__heading").text.strip()
-                if studio.find("h3", class_="SiteSnippetSearch__heading")
-                else "Не указано"
-            )
+            name = studio.find("h3", class_="SiteSnippetSearch__heading").text.strip() if studio.find("h3", class_="SiteSnippetSearch__heading") else "Не указано"
+            # Дальнейшая обработка не завершена
+            studio_data.append({"Name": name})
+        return studio_data
+    else:
+        print(f"Ошибка загрузки страницы: {response.status_code}")
+        return []

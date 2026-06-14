@@ -1,32 +1,24 @@
-# Импортируем модуль random для генерации случайных чисел
+"""Магический шар 8 — случайное предсказание."""
+
 import random
 
-# Функция принимает номер ответа (1-9) и возвращает соответствующее предсказание
+
 def getAnswer(answerNumber):
-    if answerNumber == 1:
-        return 'It is certain - это точно'
-    elif answerNumber == 2:
-        return 'It is decidedly so - это решительно так'
-    elif answerNumber == 3:
-        return 'Yes - Да'
-    elif answerNumber == 4:
-        return 'Reply hazy try again - Ответ туманный попробуйте еще раз'
-    elif answerNumber == 5:
-        return 'Ask again later - Спросите позже снова'
-    elif answerNumber == 6:
-        return 'Concentrate and ask again - Соберитесь/сосредоточьтесь и спросите еще раз'
-    elif answerNumber == 7:
-        return 'My reply is no - Мой ответ нет'
-    elif answerNumber == 8:
-        return 'Outlook not so good - Перспективы не очень хорошие'
-    elif answerNumber == 9:
-        return 'Very doubtful - Очень сомнительно'
+    """Возвращает предсказание по номеру ответа (1-9)."""
+    answers = {
+        1: 'It is certain - это точно',
+        2: 'It is decidedly so - это решительно так',
+        3: 'Yes - Да',
+        4: 'Reply hazy try again - Ответ туманный попробуйте еще раз',
+        5: 'Ask again later - Спросите позже снова',
+        6: 'Concentrate and ask again - Соберитесь/сосредоточьтесь и спросите еще раз',
+        7: 'My reply is no - Мой ответ нет',
+        8: 'Outlook not so good - Перспективы не очень хорошие',
+        9: 'Very doubtful - Очень сомнительно',
+    }
+    return answers.get(answerNumber, 'Error')
 
-# Генерируем случайное число от 1 до 9 — это будет номер ответа
+
 r = random.randint(1, 9)
-
-# Передаём случайное число в функцию и сохраняем результат
 fortune = getAnswer(r)
-
-# Выводим предсказание в консоль
 print(fortune)

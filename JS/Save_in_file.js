@@ -1,47 +1,40 @@
-{/* <body>
-    <p title="text on hover">text</p>
-    <a href="#" title="Текст подсказки">Наведите на эту ссылку</a>
-    <span><p>Hi men</p></span>
-    <form id="form1">
-        <input type="text" id="name" name="name" value="John">
-            <input type="text" name="surname" value="Smith">
-                <input type="submit">
-                    <a href='' id='linkForSavingFile' style='display:none' />
-    </form>
+/*
+ * Пример HTML-формы:
+ * <form id="form1">
+ *   <input type="text" id="name" name="name" value="John">
+ *   <input type="text" name="surname" value="Smith">
+ *   <input type="submit">
+ * </form>
+ */
 
-</body> */}
+// Обработчик отправки формы — извлекает данные и сохраняет в файл
+const formElement = document.getElementById('form1');
 
-const formElement = document.getElementById('form1'); // извлекаем элемент формы
-formElement.addEventListener('submit', (e) => {
+if (formElement) {
+    formElement.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-    e.preventDefault(); // Отменяем стандартное исполнение
+        const formData = new FormData(formElement);
+        const name = formData.get('name');
+        const surname = formData.get('surname');
 
-    const formData = new FormData(formElement); // создаём объект FormData, передаём в него элемент формы
+        alert(name);
+        alert(surname);
 
-    // теперь можно извлечь данные
-    const name = formData.get('name'); // 'John'
-    const surname = formData.get('surname'); // 'Smith'
-    alert(name)
-    alert(surname)
-    let years = prompt('Ваше имя?', name);
-    alert('Вас ' + years + '  реально так зовут!')
+        const years = prompt('Ваше имя?', name);
+        alert('Вас ' + years + ' реально так зовут!');
 
-    // Добавление данных в массив
-    let arr = [];
-    arr.push(name);
-    arr.push(surname);
+        // Сбор данных в массив
+        const data = [name, surname];
 
-    // Вывод данных в консоль 
-    console.info(arr)
-    console.error(arr)
-    console.warn(arr)
+        console.info('Data:', data);
 
-    //Загрузка данных в файл 
-    //В массив записываем данные данные
-    const blob = new Blob([arr], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'filename.txt';
-    link.click();
-    URL.revokeObjectURL(link.href);
-});
+        // Создание и скачивание текстового файла
+        const blob = new Blob([data.join('\n')], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'form-data.txt';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    });
+}

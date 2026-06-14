@@ -1,38 +1,27 @@
-<!-- Вешаем событие "клик" на кнопку -->
+<!--
+  Примеры отправки целей в Яндекс.Метрику и обработки событий через addEventListener.
+-->
+
+<!-- Кнопка с вызовом функции цели -->
 <button onclick="myFunction()">Click me</button>
 
-<!-- где: XXXXXXX — номер счетчика Яндекс.Метрики; click_subscribe — название идентификатора цели. -->
+<!-- Отправка цели в старую версию счётчика -->
 <script>
     yaCounterXXXXXXX.reachGoal('click_subscribe');
 </script>
-<!-- Новая версия cxxtnxbrf  -->
+
+<!-- Отправка цели в новую версию счётчика -->
 <script>
-    ym(XXXXXX, 'reachGoal', 'TARGET_NAME')
+    ym(XXXXXX, 'reachGoal', 'TARGET_NAME');
 </script>
 
-<!-- In JavaScript, using the addEventListener() method: -->
+<!-- Пример обработки клика через addEventListener -->
+<p id="demo">Click me.</p>
 
-<!DOCTYPE html>
-<html>
+<script>
+    document.getElementById("demo").addEventListener("click", myFunction);
 
-<body>
-
-    <h1>HTML DOM Events</h1>
-    <h2>The onclick Event</h2>
-
-    <p>Use the addEventListener() method to attach a "click" event to a p element:</p>
-
-    <p id="demo">Click me.</p>
-
-    <script>
-        // вешаем событие на клик по ID с запуском функиц
-        document.getElementById("demo").addEventListener("click", myFunction);
-        // Заменили текст 
-        function myFunction() {
-            document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
-        }
-    </script>
-
-</body>
-
-</html>
+    function myFunction() {
+        document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
+    }
+</script>

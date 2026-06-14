@@ -1,3 +1,5 @@
+"""Улучшенная версия публикации статуса в WhatsApp Web с логированием в файл."""
+
 import time
 import logging
 import os
@@ -10,12 +12,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Константы
-QR_SCAN_TIMEOUT = 180  # 3 минуты на сканирование QR-кода
-ELEMENT_TIMEOUT = 20   # Общее время ожидания элементов
-STATUS_TIMEOUT = 30    # Время ожидания для операций со статусом
+QR_SCAN_TIMEOUT = 180
+ELEMENT_TIMEOUT = 20
+STATUS_TIMEOUT = 30
 
-# Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -25,12 +25,12 @@ logging.basicConfig(
     ]
 )
 
+
 def whatsapp_login(driver):
+    """Авторизуется в WhatsApp Web с ожиданием загрузки чат-листа."""
     try:
         driver.get("https://web.whatsapp.com/")
         logging.info("Открыт WhatsApp Web. Отсканируйте QR-код (у вас есть %d секунд).", QR_SCAN_TIMEOUT)
-        
-        # Ожидаем появления панели чатов
         WebDriverWait(driver, QR_SCAN_TIMEOUT).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-testid="chat-list"]'))
         )
@@ -42,41 +42,37 @@ def whatsapp_login(driver):
         logging.error(f"Ошибка при авторизации: {e}")
         raise
 
+
 def post_status(driver, media_path):
+    """Публикует медиафайл как статус: открывает редактор, загружает файл и отправляет."""
     try:
-        # Проверка существования файла
         if not os.path.exists(media_path):
             raise FileNotFoundError(f"Файл не найден: {media_path}")
 
-        # 1. Клик по кнопке статуса
         status_button = WebDriverWait(driver, ELEMENT_TIMEOUT).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'span[data-icon="status-outline"]'))
         )
         status_button.click()
         logging.info("Открыто меню статусов")
 
-        # 2. Клик по кнопке добавления статуса
         add_button = WebDriverWait(driver, ELEMENT_TIMEOUT).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'span[data-icon="plus"]'))
         )
         add_button.click()
         logging.info("Открыт редактор статусов")
 
-        # 3. Клик по кнопке добавления медиа
         media_button = WebDriverWait(driver, ELEMENT_TIMEOUT).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'span[data-icon="media-multiple"]'))
         )
         media_button.click()
         logging.info("Открыт выбор медиафайлов")
 
-        # 4. Загрузка файла
         file_input = WebDriverWait(driver, ELEMENT_TIMEOUT).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="file"]'))
         )
         file_input.send_keys(media_path)
         logging.info(f"Файл {media_path} загружен")
 
-        # 5. Ожидание загрузки и клик по кнопке отправки
         send_button = WebDriverWait(driver, STATUS_TIMEOUT).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'div[aria-label="Отправить"]'))
         )
@@ -90,10 +86,11 @@ def post_status(driver, media_path):
         logging.error(f"Ошибка при публикации статуса: {e}")
         raise
 
-def job():
-    media_path = r"C:\Users\rustem.husnutdinov\Pictures\Wall\listia_temnyj_rastenie_136935_3840x2400.jpg"
 
-    # Настройка Chrome
+def job():
+    """Запускает Chrome, логинится в WhatsApp и публикует статус."""
+    media_path = os.path.expanduser("~/Pictures/Wall/listia_temnyj_rastenie_136935_3840x2400.jpg")
+
     service = Service(ChromeDriverManager().install())
     options = Options()
     options.add_argument("--start-maximized")
@@ -105,12 +102,13 @@ def job():
     try:
         whatsapp_login(driver)
         post_status(driver, media_path)
-        time.sleep(5)  # Даем время для завершения отправки
+        time.sleep(5)
     except Exception as e:
         logging.error(f"Ошибка в основном потоке: {e}")
     finally:
         driver.quit()
         logging.info("Браузер закрыт")
+
 
 if __name__ == "__main__":
     job()

@@ -1,3 +1,4 @@
+# Зависимости Python-приложения
 psycopg2-binary
 flask
 sqlalchemy
